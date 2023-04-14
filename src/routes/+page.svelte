@@ -1,4 +1,6 @@
-
+<svelte:head>
+    <title>Short URL! by @github/dukenmarga</title>
+</svelte:head>
 
 <section class="section is-medium">
     <h2 class="has-text-danger">URL Short!</h2>
