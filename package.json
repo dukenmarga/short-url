@@ -3,15 +3,18 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"dev": "vite dev",
-		"build": "vite build",
+		"dev": "npm run css-build & npm run start & vite dev",
+		"build": "npm run css-build & vite build",
 		"preview": "vite preview",
 		"test": "playwright test",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"test:unit": "vitest",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
-		"format": "prettier --plugin-search-dir . --write ."
+		"format": "prettier --plugin-search-dir . --write .",
+		"css-build": "node-sass --omit-source-map-url static/sass/bulma.scss static/css/bulma.css",
+		"css-watch": "npm run css-build -- --watch",
+		"start": "npm run css-watch"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",
