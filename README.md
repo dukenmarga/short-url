@@ -1,4 +1,4 @@
-# short-url
+# short url
 
 ## Demo
 Public URL: [https://short-it-vcys.onrender.com/](https://short-it-vcys.onrender.com/)
