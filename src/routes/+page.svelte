@@ -89,7 +89,7 @@
 </script>
 
 <section class="section is-medium">
-    <h2 class="has-text-danger">URL Short!</h2>
+    <h2 class="has-text-danger">Short URL!</h2>
     <h6>by @github/dukenmarga</h6>
     <div class="field">
         <div class="control">
