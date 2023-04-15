@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"dev": "npm run css-build && npm run start && vite dev",
+		"dev": "npm run css-build & npm run start & vite dev",
 		"build": "vite build && npm run css-build",
 		"preview": "vite preview",
 		"test": "playwright test",
