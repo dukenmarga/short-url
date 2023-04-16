@@ -12,5 +12,6 @@ This is a simple demo of SvelteKit using technology below:
 - SvelteKit
   - Endpoint API in SvelteKit (+server.ts) to call shrtco.de
   - Page (+page.svelte) to show text input and to show the shorten URLs
+- [PouchDB](https://pouchdb.com/) (offline in browser database) to store the history of converted urls
 - [Bulma CSS](https://bulma.io/)
 - Deployment to [Render](https://render.com)
