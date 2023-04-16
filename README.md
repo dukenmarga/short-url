@@ -3,6 +3,8 @@
 ## Demo
 See the demo: [https://short-it-vcys.onrender.com/](https://short-it-vcys.onrender.com/)
 
+Demo link might take a while to spin up after a long hibernate.
+
 ## Function
 The app will take long url and shorten it into several urls. It uses open API [https://shrtco.de/](https://shrtco.de/).
 
