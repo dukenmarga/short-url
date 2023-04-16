@@ -8,12 +8,16 @@
     import { onMount } from "svelte";
     import { pouch } from "../lib/utils/pouchdb"
 
-    // define variables
+    /**
+     * Define Variables
+     */
     let long_url: string = "";
     let ok: boolean = true;
     let error_msg: string = "";
+    // connection to pouchdb
     let db: typeof PouchDB;
-    let docs: any;
+    // array of documents loaded from pouchdb
+    let docs: [] | Record<string, Record<any, any>>[];
 
     // Common struct for short url
     type ShortURLStruct = Record<string, string>
@@ -32,10 +36,10 @@
     let json_data: RespSuccess | RespError;
 
     // Data structure to save to PouchDB
-    type PouchSaveStruct = Record<string, string | number | Record<string, string>>
+    type PouchSaveStruct = Record<string, Date | string | number | Record<string, string>>
 
     // Data structure of PouchDB when loaded
-    type PouchLoadAllStruct = Record<string, number | string | Record<string, string>[]>
+    type PouchLoadAllStruct = Record<string, number | string | object | []>
     let allPouchData: PouchLoadAllStruct | undefined = undefined;
 
     let isLoading: boolean = false;
@@ -62,10 +66,11 @@
             short_url = json_data.result;
             const doc = {
                 "_id": short_url.code,
-                "short_url": short_url
+                "short_url": short_url,
+                "created_at": new Date()
             }
             pouch.save<PouchSaveStruct>(db, doc);
-            reloadData()
+            reloadDocs()
         } else {
             ok = false;
             short_url = undefined;
@@ -77,13 +82,17 @@
 
     onMount(async() => {
         db = new PouchDB("shorturl");
-        reloadData()
+        reloadDocs()
     })
-    async function reloadData(){
+    async function reloadDocs(){
         allPouchData = await pouch.loadAll(db);
-        if (allPouchData){
+        if (allPouchData && Array.isArray(allPouchData.rows)){
             docs = allPouchData.rows;
         }
+    }
+    async function removeDoc(id: string, rev: string){
+        await pouch.remove(db, id, rev);
+        reloadDocs();
     }
 
 </script>
@@ -108,8 +117,8 @@
     <!-- Show new created short links -->
     {#if short_url }
     <div class="box">
-        <h3>🔥 It's done!</h3>
-        <h5>Original link: {long_url}</h5>
+        <h3>🔥 Here you go!</h3>
+        <p>Original link: <span class="has-text-weight-bold">{short_url.original_link}</span></p>
         <ul>
             <li><a href={short_url.full_short_link}>{short_url.full_short_link}</a></li>
             <li><a href={short_url.full_short_link2}>{short_url.full_short_link2}</a></li>
@@ -134,11 +143,18 @@
             <summary>
                 {doc.doc.short_url.original_link}
             </summary>
-            <ul class="mt-0">
+            <span>Created at: {doc.doc.created_at ?? ""}</span>
+            <ul class="mt-0 mb-0">
                 <li><a target="_blank" href={doc.doc.short_url.full_short_link}>{doc.doc.short_url.full_short_link}</a></li>
                 <li><a target="_blank" href={doc.doc.short_url.full_short_link2}>{doc.doc.short_url.full_short_link2}</a></li>
                 <li><a target="_blank" href={doc.doc.short_url.full_short_link3}>{doc.doc.short_url.full_short_link3}</a></li>
             </ul>
+            <div class="block mb-4 mt-0">
+                <span class="tag is-danger">
+                    Delete
+                    <button class="delete is-small" on:click|preventDefault={removeDoc(doc.doc._id, doc.doc._rev)}></button>
+                </span>
+            </div>
         </details>
         {/each}
         {/if}

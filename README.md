@@ -9,7 +9,7 @@ The app will take long url and shorten it into several urls. It uses open API [h
 ## Decription
 
 This is a simple demo of SvelteKit using technology below:
-- SvelteKit
+- [SvelteKit](https://kit.svelte.dev/)
   - Endpoint API in SvelteKit (+server.ts) to call shrtco.de
   - Page (+page.svelte) to show text input and to show the shorten URLs
 - [Bulma CSS](https://bulma.io/)
