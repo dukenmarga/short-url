@@ -81,6 +81,11 @@
     }
 
     onMount(async() => {
+        // According to https://stackoverflow.com/a/67275152/17614235,
+        // we cannot just install pouchdb from npm, it won't work.
+        // Sveltekit can't provide environment where pouchdb will run well.
+        // Instead, we use CDN to load Pouchdb JS and create the instance when
+        // the page is mounted.
         db = new PouchDB("shorturl");
         reloadDocs()
     })
@@ -99,10 +104,10 @@
 
 <section class="section is-medium">
     <h2 class="has-text-danger">Short URL!</h2>
-    <h6>by @github/dukenmarga</h6>
+    <h6>by <a href="https://github.com/dukenmarga/short-url">@github/dukenmarga</a></h6>
     <div class="field">
         <div class="control">
-            <label for="url" class="has-text-weight-bold">Your URL</label>
+            <label for="url" class="has-text-weight-bold">Paste long URL</label>
             <input id="url" class="input" type="text" bind:value={long_url}
                 placeholder="Your long url here ex. https://yourlongurl.com/many-words-in-the-path-that-you-need-to-make-it-shorter">
         </div>

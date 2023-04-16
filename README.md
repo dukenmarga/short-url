@@ -1,7 +1,7 @@
 # short url
 
 ## Demo
-Public URL: [https://short-it-vcys.onrender.com/](https://short-it-vcys.onrender.com/)
+See the demo: [https://short-it-vcys.onrender.com/](https://short-it-vcys.onrender.com/)
 
 ## Function
 The app will take long url and shorten it into several urls. It uses open API [https://shrtco.de/](https://shrtco.de/).
