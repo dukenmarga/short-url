@@ -10,10 +10,11 @@ The app will take long url and shorten it into several urls. It uses open API [h
 
 ## Decription
 
-This is a simple demo of SvelteKit using technology below:
+This is a simple demo using technology below:
 - [SvelteKit](https://kit.svelte.dev/)
-  - Endpoint API in SvelteKit (+server.ts) to call shrtco.de
-  - Page (+page.svelte) to show text input and to show the shorten URLs
+  - [API route made using Sveltekit (+server.ts)](https://kit.svelte.dev/docs/routing#server) to call external API from shrtco.de
+  - [Page (+page.svelte)](https://kit.svelte.dev/docs/routing#page) to show text input and to show the shorten URLs
+  - [Typescript](https://www.typescriptlang.org/)
 - [PouchDB](https://pouchdb.com/) (offline in browser database) to store the history of converted urls
 - [Bulma CSS](https://bulma.io/)
 - Deployment to [Render](https://render.com)
