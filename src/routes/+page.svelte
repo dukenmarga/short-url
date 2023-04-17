@@ -1,6 +1,5 @@
 <svelte:head>
     <title>Short URL! by @github/dukenmarga</title>
-    <script src="//cdn.jsdelivr.net/npm/pouchdb@8.0.1/dist/pouchdb.min.js"></script>
 </svelte:head>
 
 <script lang="ts">
@@ -121,7 +120,7 @@
 
     <!-- Show new created short links -->
     {#if short_url }
-    <div class="box">
+    <div class="box has-background-success-light" transition:fade>
         <h3>🔥 Here you go!</h3>
         <p>Original link: <span class="has-text-weight-bold">{short_url.original_link}</span></p>
         <ul>
@@ -140,27 +139,37 @@
     {/if}
 
     <!-- History saved in PouchDB -->
-    <div class="box">
+    <div class="box has-background-warning">
         <h3>📜 Your History</h3>
+        <div class="icon-text mt-0">
+            <span class="icon has-text-info">
+                <i class="fas fa-info-circle"></i>
+            </span>
+            <span class="has-text-weight-medium">You history is saved only in your local browser.</span>
+        </div>
         {#if allPouchData}
         {#each docs as doc}
-        <details>
-            <summary>
-                {doc.doc.short_url.original_link}
-            </summary>
-            <span>Created at: {doc.doc.created_at ?? ""}</span>
-            <ul class="mt-0 mb-0">
-                <li><a target="_blank" href={doc.doc.short_url.full_short_link}>{doc.doc.short_url.full_short_link}</a></li>
-                <li><a target="_blank" href={doc.doc.short_url.full_short_link2}>{doc.doc.short_url.full_short_link2}</a></li>
-                <li><a target="_blank" href={doc.doc.short_url.full_short_link3}>{doc.doc.short_url.full_short_link3}</a></li>
-            </ul>
-            <div class="block mb-4 mt-0">
-                <span class="tag is-danger">
-                    Delete
-                    <button class="delete is-small" on:click|preventDefault={removeDoc(doc.doc._id, doc.doc._rev)}></button>
-                </span>
-            </div>
-        </details>
+        <div class="box has-background-white-ter mb-1 pt-1 pb-1">
+            <details>
+                <summary>
+                    {doc.doc.short_url.original_link}
+                </summary>
+                <span>Created at: {doc.doc.created_at ?? ""}</span>
+                <ul class="mt-0 mb-0">
+                    <li><a target="_blank" href={doc.doc.short_url.full_short_link}>{doc.doc.short_url.full_short_link}</a></li>
+                    <li><a target="_blank" href={doc.doc.short_url.full_short_link2}>{doc.doc.short_url.full_short_link2}</a></li>
+                    <li><a target="_blank" href={doc.doc.short_url.full_short_link3}>{doc.doc.short_url.full_short_link3}</a></li>
+                </ul>
+                <div class="mt-0 mb-1">
+                    <button class="button is-danger is-small is-outlined" on:click|preventDefault={removeDoc(doc.doc._id, doc.doc._rev)}>
+                        <span>Delete</span>
+                        <span class="icon is-small">
+                            <i class="fas fa-times"></i>
+                        </span>
+                    </button>
+                </div>
+            </details>
+        </div>
         {/each}
         {/if}
     </div>
