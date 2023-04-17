@@ -6,6 +6,7 @@
     import { fade } from "svelte/transition";
     import { onMount } from "svelte";
     import { pouch } from "../lib/utils/pouchdb"
+    import ShortLinksDetails from "../lib/components/ShortLinksDetails.svelte";
 
     /**
      * Define Variables
@@ -98,43 +99,7 @@
         await pouch.remove(db, id, rev);
         reloadDocs();
     }
-
-    let previousCopiedID: HTMLElement;
-    function copyLink(link: string){
-        navigator.clipboard.writeText(link);
-
-        // hide copied text on previous click
-        if (previousCopiedID){
-            previousCopiedID.style.display = "none"
-        }
-
-        // show copied text
-        const copiedId = document.getElementById(link)
-        if (copiedId instanceof HTMLElement){
-            copiedId.style.display = "block";
-            previousCopiedID = copiedId;
-        }
-    }
 </script>
-
-<style>
-    .url, .copy {
-        border: 1px solid #ccc;
-        padding: 2px 5px;
-        margin: 3px 0px;
-    }
-    .copied {
-        padding: 2px 5px;
-        margin: 3px 0px;
-    }
-    .copy {
-        border: 0px solid #aaa;
-        background-color: #ddd;
-    }
-    .hide {
-        display: none;
-    }
-</style>
 
 <section class="section is-medium">
     <h2 class="has-text-danger">Short URL!</h2>
@@ -158,11 +123,9 @@
     <div class="box has-background-success-light" transition:fade>
         <h3>🔥 Here you go!</h3>
         <p>Original link: <span class="has-text-weight-bold">{short_url.original_link}</span></p>
-        <ul>
-            <li><a href={short_url.full_short_link}>{short_url.full_short_link}</a></li>
-            <li><a href={short_url.full_short_link2}>{short_url.full_short_link2}</a></li>
-            <li><a href={short_url.full_short_link3}>{short_url.full_short_link3}</a></li>
-        </ul>
+        <ShortLinksDetails url={short_url.full_short_link} />
+        <ShortLinksDetails url={short_url.full_short_link2} />
+        <ShortLinksDetails url={short_url.full_short_link3} />
     </div>
     {/if}
 
@@ -176,7 +139,7 @@
     <!-- History saved in PouchDB -->
     <div class="box has-background-warning">
         <h3>📜 Your History</h3>
-        <div class="icon-text mt-0">
+        <div class="icon-text mt-0 mb-3">
             <span class="icon has-text-info">
                 <i class="fas fa-info-circle"></i>
             </span>
@@ -190,51 +153,9 @@
                     {doc.doc.short_url.original_link}
                 </summary>
                 <span>Created at: {doc.doc.created_at ?? ""}</span>
-                    <div class="columns mx-0 my-0 px-0 py-0">
-                        <div class="column is-4 url">
-                            <a target="_blank" href={doc.doc.short_url.full_short_link}>{doc.doc.short_url.full_short_link}</a>
-                        </div>
-                        <div class="column is-1 copy has-text-centered" role="link" tabindex="0"
-                            on:click={copyLink(doc.doc.short_url.full_short_link)}
-                            on:keyup={() => {}}>
-                            <span class="icon">
-                                <i class="fas fa-copy"></i>
-                            </span>
-                        </div>
-                        <div class="column copied hide" id={doc.doc.short_url.full_short_link}>
-                            Copied!
-                        </div>
-                    </div>
-                    <div class="columns mx-0 my-0 px-0 py-0">
-                        <div class="column is-4 url">
-                            <a target="_blank" href={doc.doc.short_url.full_short_link2}>{doc.doc.short_url.full_short_link2}</a>
-                        </div>
-                        <div class="column is-1 copy has-text-centered" role="link" tabindex="0"
-                            on:click={copyLink(doc.doc.short_url.full_short_link2)}
-                            on:keyup={() => {}}>
-                            <span class="icon">
-                                <i class="fas fa-copy"></i>
-                            </span>
-                        </div>
-                        <div class="column copied hide" id={doc.doc.short_url.full_short_link2}>
-                            Copied!
-                        </div>
-                    </div>
-                    <div class="columns mx-0 my-0 px-0 py-0">
-                        <div class="column is-4 url">
-                            <a target="_blank" href={doc.doc.short_url.full_short_link3}>{doc.doc.short_url.full_short_link3}</a>
-                        </div>
-                        <div class="column is-1 copy has-text-centered" role="link" tabindex="0"
-                            on:click={copyLink(doc.doc.short_url.full_short_link3)}
-                            on:keyup={() => {}}>
-                            <span class="icon">
-                                <i class="fas fa-copy"></i>
-                            </span>
-                        </div>
-                        <div class="column copied hide" id={doc.doc.short_url.full_short_link3}>
-                            Copied!
-                        </div>
-                    </div>
+                <ShortLinksDetails url={doc.doc.short_url.full_short_link} />
+                <ShortLinksDetails url={doc.doc.short_url.full_short_link2} />
+                <ShortLinksDetails url={doc.doc.short_url.full_short_link3} />
                 <div class="mt-0 mb-1">
                     <button class="button is-danger is-small is-outlined" on:click|preventDefault={removeDoc(doc.doc._id, doc.doc._rev)}>
                         <span>Delete</span>
